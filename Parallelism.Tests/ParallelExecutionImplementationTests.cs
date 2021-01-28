@@ -2,6 +2,7 @@ using AutoFixture;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading;
 using System.Threading.Tasks;
 using Xunit;
 
@@ -34,6 +35,25 @@ namespace Parallelism.Tests
                     //Assert
                     Assert.True(run.IsCompletedSuccessfully);
                 });
+        }
+
+        [Fact]
+        public async Task ParallelExecutionImplementation_RunAsync_CancellationRequested()
+        {
+            //Arrange
+            var repositoryMock = _fixture.CreateMany<string>(50).ToList();
+
+            Func<int, Task<IEnumerable<string>>> provider =
+               skip => Task.FromResult(repositoryMock.Skip(skip).Take(2));
+
+            Func<string, Task> processor = item => Task.CompletedTask;
+
+            var cts = new CancellationTokenSource();
+            cts.CancelAfter(5);
+
+            //Assert
+            await Assert.ThrowsAsync<OperationCanceledException>(
+                () => ParallelExecution.Build(provider, processor).RunAsync(cts.Token));
         }
 
         [Fact]
