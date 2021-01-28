@@ -21,7 +21,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\ParallelExecution\Parallelism.csproj" />
+    <ProjectReference Include="..\Parallelism\Parallelism.csproj" />
   </ItemGroup>
 
 </Project>

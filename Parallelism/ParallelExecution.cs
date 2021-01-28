@@ -1,6 +1,7 @@
 ﻿using Microsoft.Extensions.Logging;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Threading.Tasks;
 
 namespace Parallelism
@@ -46,7 +47,7 @@ namespace Parallelism
             _ = items ?? throw new ArgumentNullException(nameof(items));
 
             return new ParallelExecutionImplementation<TItem, TResult>(
-                _ => Task.FromResult(items), processor, maxConcurrentThreads, logger);
+                skip => Task.FromResult(items.ToList().Skip(skip)), processor, maxConcurrentThreads, logger);
         }
 
         /// <summary>
@@ -84,7 +85,7 @@ namespace Parallelism
             _ = items ?? throw new ArgumentNullException(nameof(items));
 
             return new ParallelExecutionImplementation<TItem>(
-                _ => Task.FromResult(items), processor, maxConcurrentThreads, logger);
+                skip => Task.FromResult(items.ToList().Skip(skip)), processor, maxConcurrentThreads, logger);
         }
     }
 }

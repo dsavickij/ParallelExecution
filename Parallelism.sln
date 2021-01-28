@@ -3,11 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30717.126
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parallelism.Console", "ParallelExecution.Console\Parallelism.Console.csproj", "{A4DF6DF7-6A02-4D83-BC16-63762D4BC631}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parallelism", "Parallelism\Parallelism.csproj", "{A070906A-B39A-4BC5-9CE3-DFEF61088C45}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parallelism", "ParallelExecution\Parallelism.csproj", "{A070906A-B39A-4BC5-9CE3-DFEF61088C45}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parallelism.Tests", "ParallelExecution.Tests\Parallelism.Tests.csproj", "{DFDE95EA-649F-4B10-A80C-F576E537D051}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Parallelism.Tests", "Parallelism.Tests\Parallelism.Tests.csproj", "{DFDE95EA-649F-4B10-A80C-F576E537D051}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
