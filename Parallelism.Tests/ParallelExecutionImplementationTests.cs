@@ -44,12 +44,12 @@ namespace Parallelism.Tests
             var repositoryMock = _fixture.CreateMany<string>(50).ToList();
 
             Func<int, Task<IEnumerable<string>>> provider =
-               skip => Task.FromResult(repositoryMock.Skip(skip).Take(2));
+               skip => Task.FromResult(repositoryMock.Skip(skip).Take(1));
 
-            Func<string, Task> processor = item => Task.CompletedTask;
+            Func<string, Task> processor = item => Task.Delay(50);
 
             var cts = new CancellationTokenSource();
-            cts.CancelAfter(5);
+            cts.CancelAfter(1);
 
             //Assert
             await Assert.ThrowsAsync<OperationCanceledException>(
