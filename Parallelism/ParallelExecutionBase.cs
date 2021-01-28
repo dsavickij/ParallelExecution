@@ -75,8 +75,7 @@ namespace Parallelism
                 if (cancellationToken.IsCancellationRequested)
                     break;
 
-                await ManageDegreeOfParallelism(
-                    (activeWorkers, allWorkers), _processor(item));
+                await ManageDegreeOfParallelism((activeWorkers, allWorkers), _processor(item));
             }
 
             await Task.WhenAll(allWorkers);
