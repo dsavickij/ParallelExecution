@@ -68,33 +68,23 @@ namespace Parallelism
         protected async Task<List<TResultTask>> ExecuteParallelProcessingAsync(
             CancellationToken cancellationToken = default) 
         {
-            var (activeWorkers, allWorkers) = (new List<TResultTask>(), new List<TResultTask>());
+            var workers = new List<TResultTask>();
 
             await foreach (var item in GetItemsAsync())
             {
                 if (cancellationToken.IsCancellationRequested)
                     break;
 
-                await ManageDegreeOfParallelism((activeWorkers, allWorkers), _processor(item));
+                workers.Add(_processor(item));
+
+                if (workers.Select(x => !x.IsCompleted).Count() == _maxConcurrentThreads)
+                    await await Task.WhenAny(workers);
             }
 
-            await Task.WhenAll(allWorkers);
+            await Task.WhenAll(workers);
             cancellationToken.ThrowIfCancellationRequested();
 
-            return allWorkers;
-        }
-
-        protected async Task ManageDegreeOfParallelism(
-            (List<TResultTask> activeWorkers, List<TResultTask> allWorkers) workers, TResultTask newWorker)
-        {
-            workers.activeWorkers.Add(newWorker);
-            workers.allWorkers.Add(newWorker);
-
-            if (workers.activeWorkers.Count == _maxConcurrentThreads)
-            {
-                await Task.WhenAny(workers.activeWorkers);
-                workers.activeWorkers.RemoveAll(worker => worker.IsCompleted);
-            }
+            return workers;
         }
     }
 }
